@@ -1,0 +1,44 @@
+az appservice plan create --name tailspin-space-game-web-plan --resource-group tailspin-space-game-rg --is-linux --location southeastasia --sku B1
+
+
+az webapp create --name tailspin-space-game-web-dev-thinh --plan tailspin-space-game-web-plan --resource-group tailspin-space-game-rg --runtime "DOTNETCORE|Latest"
+
+
+
+az webapp create --name tailspin-space-game-web-test-thinh --plan tailspin-space-game-web-plan --resource-group tailspin-space-game-rg --runtime "DOTNETCORE|Latest"
+
+az webapp create --name tailspin-space-game-web-staging-thinh --plan tailspin-space-game-web-plan --resource-group tailspin-space-game-rg --runtime "DOTNETCORE|Latest"
+
+
+az webapp list --resource-group tailspin-space-game-rg --query "[].{hostName: defaultHostName, state: state, runtime: runtime}" --output table
+
+az webapp show --name tailspin-space-game-thinh --resource-group tailspin-space-game-rg
+
+
+az webapp delete --name MyWebapp --resource-group MyResourceGroup
+
+
+az webapp config show --name tailspin-space-game-web-dev-thinh --resource-group tailspin-space-game-rg
+
+az webapp config show --name tailspin-space-game-thinh --resource-group tailspin-space-game-rg
+
+az account list-locations --query "[].{Name: name, DisplayName: displayName}" --output table
+
+az configure --defaults location=southeastasia
+
+
+az group create --name tailspin-space-game-rg
+
+
+-- create an Azure Container Registry
+
+az acr create --name tailspinspacegamethinh2020 --resource-group tailspin-space-game-rg --sku Standard --admin-enabled true
+
+az appservice plan create --name tailspinspacegamethinh2020 --resource-group tailspin-space-game-rg --sku B1 --is-linux
+
+az webapp create --name tailspin-space-game-web-thinh2020 --resource-group tailspin-space-game-rg --plan tailspinspacegamethinh2020 --deployment-container-image-name tailspinspacegamethinh2020.azurecr.io/web:latest
+
+az webapp list --resource-group tailspin-space-game-rg --query "[].{hostName: defaultHostName, state: state}" --output table
+
+
+az acr list --resource-group tailspin-space-game-rg --query "[].{loginServer: loginServer}" --output table
