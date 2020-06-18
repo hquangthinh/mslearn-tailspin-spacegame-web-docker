@@ -6,7 +6,7 @@ variables:
   webRepository: 'web'
   tag: '$(Build.BuildId)'
 
-  
+
 - stage: 'Build'
   displayName: 'Build and push'
   jobs:  
@@ -44,4 +44,3 @@ variables:
        azureSubscription: 'Resource Manager - Tailspin - Space Game'
        imageName: $(RegistryName)/$(webRepository):$(build.buildId)
 
-       
